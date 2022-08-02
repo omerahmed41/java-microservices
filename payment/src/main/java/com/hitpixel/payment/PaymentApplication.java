@@ -17,9 +17,4 @@ public class PaymentApplication {
 		SpringApplication.run(PaymentApplication.class, args);
 	}
 
-	@RequestMapping("/")
-	public String home() {
-		return "Hello 2!";
-	}
-
 }
