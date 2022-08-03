@@ -12,3 +12,15 @@ Java Spring-boot Micro-services blueprint
 * auth service
 * email service, main-service
 * kubernetes 
+
+## Setup: 
+### run:
+* make build
+* make run
+* to reload the Service use make reload
+
+
+## RabbitMq Dashboard:
+* URL: http://localhost:15672
+* username: guest
+* password: guest
