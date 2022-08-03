@@ -1,7 +1,7 @@
 package com.hitpixel.payment.application;
 
-import com.hitpixel.payment.domain.mq.invoice.Invoice;
-import com.hitpixel.payment.domain.mq.invoice.InvoiceService;
+import com.hitpixel.payment.domain.entity.Invoice;
+import com.hitpixel.payment.domain.service.InvoiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

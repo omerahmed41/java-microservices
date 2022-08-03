@@ -1,0 +1,12 @@
+server.servlet.contextPath: /
+server.port: 8080
+spring.rabbitmq.addresses: localhost:5672
+  
+  #springdoc.swagger-ui.operationsSorter=method
+springdoc.swagger-ui.path: /
+
+management:
+  endpoints:
+    restart.enabled: true
+    shutdown.enabled: true
+  #management.endpoints.web.exposure.include=restart,health

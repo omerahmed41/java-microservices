@@ -1,4 +1,4 @@
-package com.hitpixel.payment.domain.mq;
+package com.hitpixel.payment.domain.service;
 
 import com.hitpixel.payment.Infrastructure.mq.CustomMessage;
 import com.hitpixel.payment.Infrastructure.mq.MQConfig;

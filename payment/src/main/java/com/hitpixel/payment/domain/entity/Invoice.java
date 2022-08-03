@@ -1,4 +1,4 @@
-package com.hitpixel.payment.domain.mq.invoice;
+package com.hitpixel.payment.domain.entity;
 
 import java.time.LocalDateTime;
 
