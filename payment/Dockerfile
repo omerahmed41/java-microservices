@@ -1,12 +1,6 @@
-FROM eclipse-temurin:17-jdk-focal
+FROM openjdk:17
+VOLUME /tmp
+ARG JAR_FILE=target/*.jar
+COPY ${JAR_FILE} payment.jar
+ENTRYPOINT ["java","-jar","/payment.jar"]
 
-WORKDIR /app
-
-COPY .mvn .mvn
-COPY mvnw pom.xml ./
-RUN ./mvnw dependency:go-offline
-
-COPY src ./src
-
-
-CMD ["./mvnw", "spring-boot:run"]

@@ -1,12 +1,17 @@
 services:
-  payment-web:
-    build: payment
+  payment:
+    container_name:  payment
+    build:
+        context: ./payment
+        args:
+          JDK_VERSION: 17
+        dockerfile: Dockerfile
     ports:
       - 80:80
     environment:
       - POSTGRES_DB=example
     networks:
-      - spring-postgres
+      - spring-network
   db:
     image: postgres
     restart: always
@@ -15,24 +20,13 @@ services:
     volumes:
       - db-data:/var/lib/postgresql/data
     networks:
-      - spring-postgres
+      - spring-network
     environment:
       - POSTGRES_DB=example
       - POSTGRES_PASSWORD_FILE=/run/secrets/db-password
     expose:
       - 5432
-  rabbitmq:
-    build: rabbitmq
-    image: rabbitmq:3-management-alpine
-    container_name: 'rabbitmq'
-    ports:
-      - 5672:5672
-      - 15672:15672
-    volumes:
-      - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
-      - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
-    networks:
-      - spring-postgres
+
 
 volumes:
   db-data:
@@ -40,4 +34,5 @@ secrets:
   db-password:
     file: db/password.txt
 networks:
-  spring-postgres:
+  spring-network:
+    name: spring_network
