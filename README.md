@@ -24,3 +24,8 @@ Java Spring-boot Micro-services blueprint
 * URL: http://localhost:15672
 * username: guest
 * password: guest
+
+## Eureka Service:
+#### to see all Instances currently registered with Eureka
+* URL: http://localhost:8761
+

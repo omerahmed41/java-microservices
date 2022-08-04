@@ -1,4 +1,4 @@
-package com.hitpixel.payment.application;
+package com.hitpixel.payment.application.controller;
 
 import com.hitpixel.payment.domain.entity.Invoice;
 import com.hitpixel.payment.domain.service.InvoiceService;

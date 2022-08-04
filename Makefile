@@ -1,6 +1,8 @@
-build:
-	cd Rabbitmq; docker-compose up -d ; cd ..; cd payment; ./mvnw clean package; cd ..;docker-compose build --pull --no-cache
 
+build:
+	cd payment; ./mvnw clean package -Dmaven.test.skip; cd ..;docker-compose build --pull --no-cache
+
+build_rabbitmq: cd Rabbitmq; docker-compose up -d ; cd ..
 run:
 	 docker-compose up
 reload:
