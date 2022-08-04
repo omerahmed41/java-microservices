@@ -1,4 +1,60 @@
 services:
+  mysql-standalone1:
+    container_name: mysql-standalone1
+    image: mysql:5.7
+    platform: linux/amd64
+    restart: always
+    ports:
+        - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=admin123
+      - MYSQL_DATABASE=test
+      - MYSQL_USER=testuser
+      - MYSQL_PASSWORD=testuser@123
+    networks:
+      - spring-network
+    volumes:
+      - ./init:/docker-entrypoint-initdb.d
+      - app_db:/var/lib/mysql
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+      - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+    networks:
+      - spring-network
+
+  service-registry:
+    container_name:  service-registry
+    build:
+        context: ./service-registry
+        args:
+          JDK_VERSION: 17
+        dockerfile: Dockerfile
+    ports:
+      - 8761:8761
+    networks:
+      - spring-network
+
+  cloud_gateway:
+    container_name: cloud_gateway
+    build:
+      context: ./cloud_gateway
+      args:
+        JDK_VERSION: 17
+      dockerfile: Dockerfile
+    ports:
+      - 9191:9191
+    networks:
+      - spring-network
+    depends_on:
+      - service-registry
+
   payment:
     container_name:  payment
     build:
@@ -8,28 +64,17 @@ services:
         dockerfile: Dockerfile
     ports:
       - 80:80
-    environment:
-      - POSTGRES_DB=example
     networks:
       - spring-network
-  db:
-    image: postgres
-    restart: always
-    secrets:
-      - db-password
-    volumes:
-      - db-data:/var/lib/postgresql/data
-    networks:
-      - spring-network
-    environment:
-      - POSTGRES_DB=example
-      - POSTGRES_PASSWORD_FILE=/run/secrets/db-password
-    expose:
-      - 5432
+    depends_on:
+      - mysql-standalone1
+      - rabbitmq
+      - service-registry
+
 
 
 volumes:
-  db-data:
+  app_db:
 secrets:
   db-password:
     file: db/password.txt
