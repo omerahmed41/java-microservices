@@ -103,10 +103,10 @@ services:
     depends_on:
       - service-registry
 
-  payment:
-    container_name:  payment
+  transaction_service:
+    container_name:  transaction_service
     build:
-        context: ./payment
+        context: ./transaction_service
         args:
           JDK_VERSION: 17
         dockerfile: Dockerfile

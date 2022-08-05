@@ -52,6 +52,17 @@ public class ClientController {
         return clientService.deleteClient(id);
     }
 
+    @GetMapping("client-transactions/{id}")
+    public ResponseTemplateVO clientTransactions(@PathVariable("id") Long clientId) {
+        log.info("Inside getUserWithDepartment of UserController");
+        return clientService.getClient(clientId);
+    }
+
+    @PostMapping("refund-transaction/{id}")
+    public ResponseTemplateVO refundTransactions(@PathVariable("id") Long clientId) {
+        log.info("Inside getUserWithDepartment of UserController");
+        return clientService.getClient(clientId);
+    }
 
 
 }
