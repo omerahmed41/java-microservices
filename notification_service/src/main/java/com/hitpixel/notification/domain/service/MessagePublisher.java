@@ -1,7 +1,7 @@
-package com.hitpixel.payment.domain.service;
+package com.hitpixel.notification.domain.service;
 
-import com.hitpixel.payment.Infrastructure.mq.CustomMessage;
-import com.hitpixel.payment.Infrastructure.mq.MQConfig;
+import com.hitpixel.notification.Infrastructure.mq.CustomMessage;
+import com.hitpixel.notification.Infrastructure.mq.MQConfig;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;

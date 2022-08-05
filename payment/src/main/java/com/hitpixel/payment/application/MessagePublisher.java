@@ -1,4 +1,4 @@
-package com.hitpixel.payment.domain.service;
+package com.hitpixel.payment.application;
 
 import com.hitpixel.payment.Infrastructure.mq.CustomMessage;
 import com.hitpixel.payment.Infrastructure.mq.MQConfig;
@@ -21,10 +21,11 @@ public class MessagePublisher {
     public String publishMessage(@RequestBody CustomMessage message) {
         message.setMessageId(UUID.randomUUID().toString());
         message.setMessageDate(new Date());
-        message.setMessage("user_registered");
+        message.setEmail("omer@gmail.com");
+        message.setId("4");
         template.convertAndSend(MQConfig.EXCHANGE,
                 MQConfig.ROUTING_KEY, message);
 
-        return "Message Published";
+        return "Message Published" + message.getMessage();
     }
 }

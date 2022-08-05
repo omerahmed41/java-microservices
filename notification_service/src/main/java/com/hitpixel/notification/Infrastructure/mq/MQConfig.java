@@ -1,4 +1,4 @@
-package com.hitpixel.payment.Infrastructure.mq;
+package com.hitpixel.notification.Infrastructure.mq;
 
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;

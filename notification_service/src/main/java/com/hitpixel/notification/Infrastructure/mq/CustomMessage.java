@@ -1,4 +1,4 @@
-package com.hitpixel.payment.Infrastructure.mq;
+package com.hitpixel.notification.Infrastructure.mq;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,6 +15,8 @@ public class CustomMessage {
 
     private String messageId;
     private String message;
+    private String id;
+    private String email;
     private Date messageDate;
 
 }
