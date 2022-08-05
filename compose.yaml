@@ -17,6 +17,54 @@ services:
       - ./init:/docker-entrypoint-initdb.d
       - app_db:/var/lib/mysql
 
+  mysql-standalone2:
+    container_name: mysql-standalone2
+    image: mysql:5.7
+    platform: linux/amd64
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=admin123
+      - MYSQL_DATABASE=test
+      - MYSQL_USER=testuser
+      - MYSQL_PASSWORD=testuser@123
+    networks:
+      - spring-network
+    volumes:
+      - ./init:/docker-entrypoint-initdb.d
+      - app_db2:/var/lib/mysql
+
+  mysql-payment:
+    container_name: mysql-payment
+    image: mysql:5.7
+    platform: linux/amd64
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=admin123
+      - MYSQL_DATABASE=test
+      - MYSQL_USER=testuser
+      - MYSQL_PASSWORD=testuser@123
+    networks:
+      - spring-network
+    volumes:
+      - ./init:/docker-entrypoint-initdb.d
+      - payment_db:/var/lib/mysql
+
+  mysql-invoice:
+    container_name: mysql-invoice
+    image: mysql:5.7
+    platform: linux/amd64
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=admin123
+      - MYSQL_DATABASE=test
+      - MYSQL_USER=testuser
+      - MYSQL_PASSWORD=testuser@123
+    networks:
+      - spring-network
+    volumes:
+      - ./init:/docker-entrypoint-initdb.d
+      - invoice_db:/var/lib/mysql
+
   rabbitmq:
     image: rabbitmq:3-management-alpine
     container_name: rabbitmq
@@ -67,6 +115,54 @@ services:
     networks:
       - spring-network
     depends_on:
+      - mysql-payment
+      - rabbitmq
+      - service-registry
+
+  notification_service:
+    container_name:  notification_service
+    build:
+        context: ./notification_service
+        args:
+          JDK_VERSION: 17
+        dockerfile: Dockerfile
+    ports:
+      - 8081:8081
+    networks:
+      - spring-network
+    depends_on:
+      - mysql-standalone2
+      - rabbitmq
+      - service-registry
+
+  invoice_service:
+    container_name:  invoice_service
+    build:
+        context: ./invoice_service
+        args:
+          JDK_VERSION: 17
+        dockerfile: Dockerfile
+    ports:
+      - 8082:8082
+    networks:
+      - spring-network
+    depends_on:
+      - mysql-standalone1
+      - rabbitmq
+      - service-registry
+
+  client_service:
+    container_name: client_service
+    build:
+        context: ./client_service
+        args:
+          JDK_VERSION: 17
+        dockerfile: Dockerfile
+    ports:
+      - 8083:8083
+    networks:
+      - spring-network
+    depends_on:
       - mysql-standalone1
       - rabbitmq
       - service-registry
@@ -75,6 +171,9 @@ services:
 
 volumes:
   app_db:
+  app_db2:
+  payment_db:
+  invoice_db:
 secrets:
   db-password:
     file: db/password.txt

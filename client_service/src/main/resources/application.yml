@@ -1,12 +1,12 @@
 server.servlet.contextPath: /
-server.port: 80
+server.port: 8083
 
 spring:
   application:
-    name: PAYMENT-SERVICE
+    name: CLIENT-SERVICE
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://mysql-payment:3306/test?useSSL=false
+    url: jdbc:mysql://mysql-standalone1:3306/test?useSSL=false
     username: testuser
     password: testuser@123
     hikari:
