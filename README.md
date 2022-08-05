@@ -6,12 +6,18 @@ Java Spring-boot Micro-services blueprint
 * docker
 * open API
 * make file
+* Logs slf4j
 * message broker
-* layer architecture (DDD)
-* CI/CD
 * auth service
 * email service, main-service
-* kubernetes 
+* Service registry
+* API-gateway
+* Design pattern
+* layer architecture (DDD)
+* CI/CD
+* kubernetes
+
+
 
 ## Setup: 
 ### run:
