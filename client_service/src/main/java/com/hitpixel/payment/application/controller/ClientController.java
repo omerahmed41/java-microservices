@@ -33,23 +33,23 @@ public class ClientController {
     }
 
     @GetMapping("/{id}")
-    public ResponseTemplateVO getUserWithDepartment(@PathVariable("id") Long userId) {
+    public ResponseTemplateVO getClient(@PathVariable("id") Long clientId) {
         log.info("Inside getUserWithDepartment of UserController");
-        return clientService.getUserWithDepartment(userId);
+        return clientService.getClient(clientId);
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<Client>> getAllProduct() {
+    public ResponseEntity<List<Client>> getAllClients() {
         return clientService.getAllClient();
     }
     @PutMapping("/{id}")
-    public Client updateProduct(@PathVariable int id, @RequestBody Client client) {
+    public Client updateClient(@PathVariable int id, @RequestBody Client client) {
         return clientService.updateClient(id, client);
     }
 
     @DeleteMapping("/{id}")
-    public String deleteProduct(@PathVariable int id) {
-        return clientService.deleteProduct(id);
+    public String deleteClient(@PathVariable int id) {
+        return clientService.deleteClient(id);
     }
 
 

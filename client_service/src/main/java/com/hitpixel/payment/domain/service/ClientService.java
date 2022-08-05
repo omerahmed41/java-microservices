@@ -22,16 +22,28 @@ public class ClientService {
     @Autowired
     private RestTemplate restTemplate;
 
+    private final MessagePublisher messagePublisher;
+
+
+
+    @Autowired
+    public ClientService(MessagePublisher messagePublisher) {
+        this.messagePublisher = messagePublisher;
+    }
+
+
     public Client saveUser(Client client) {
         log.info("Inside saveUser of UserService");
-        return clientRepository.save(client);
+        client =  clientRepository.save(client);
+        this.messagePublisher.publishUserCreatedMessage(client);
+        return  client;
     }
 
     public ResponseEntity<List<Client>> getAllClient() {
         return ResponseEntity.ok(clientRepository.findAll());
     }
 
-    public ResponseTemplateVO getUserWithDepartment(Long userId) {
+    public ResponseTemplateVO getClient(Long userId) {
         log.info("Inside getUserWithDepartment of UserService");
         ResponseTemplateVO vo = new ResponseTemplateVO();
         Client client = clientRepository.findByUserId(userId);
@@ -46,7 +58,7 @@ public class ClientService {
         return  vo;
     }
 
-    public String deleteProduct(long id) {
+    public String deleteClient(long id) {
         clientRepository.deleteById(id);
         return "Client removed !! " + id;
     }

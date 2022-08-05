@@ -32,9 +32,9 @@ public class NotificationService {
     public void sendEmail(Email email) {
         log.info("sending email to:" + email.getToEmail());
         System.out.println(
-                "send email to:" + email.getToEmail() +
-                "Title:" + email.getTitle() +
-                " Body:" + email.getBody());
+                " send email to:" + email.getToEmail() +
+                ", Title:" + email.getTitle() +
+                ", Body:" + email.getBody());
     }
 
 }
