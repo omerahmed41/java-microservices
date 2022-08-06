@@ -27,6 +27,7 @@ public class Invoice {
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime createdAt;
+    private LocalDateTime dueDate;
     private LocalDateTime completedAt;
     private String status;
 

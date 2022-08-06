@@ -46,6 +46,10 @@ public class InvoiceService {
         return ResponseEntity.ok(invoiceRepository.findAll());
     }
 
+    public List<Invoice> getAllDueDateInvoices() {
+        return ResponseEntity.ok(invoiceRepository.findByDueDateLessThanEqual(LocalDateTime.now())).getBody();
+    }
+
     public Invoice getInvoiceWithClientID(Long clientID) {
         log.info("Inside getUserWithDepartment of UserService");
         return invoiceRepository.findByClientID(clientID);
@@ -53,8 +57,13 @@ public class InvoiceService {
     }
 
     public Invoice payInvoiceWithClientID(Long clientID) {
-        log.info("Inside getUserWithDepartment of UserService");
+//        log.info("payInvoiceWithClientID");
         Invoice invoice =  this.getInvoiceWithClientID(clientID);
+        return this.payInvoice(invoice);
+    }
+
+    public Invoice payInvoice(Invoice invoice) {
+        log.info("payInvoice");
         invoice.setStatus("invoice_sent");
         Invoice saved_invoice = invoiceRepository.save(invoice);
         this.messagePublisher.publishInvoiceSentMessage(saved_invoice);
