@@ -1,5 +1,5 @@
 
 build:
-	./mvnw clean package -Dmaven.test.skip
+	./mvnw clean package
 
 
