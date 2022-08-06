@@ -3,9 +3,9 @@ package com.hitpixel.invoice.application;
 
 import com.hitpixel.invoice.Infrastructure.mq.CustomMessage;
 import com.hitpixel.invoice.Infrastructure.mq.MQConfig;
-import com.hitpixel.invoice.domain.service.ICommand;
+import com.hitpixel.invoice.domain.command.ICommand;
 import com.hitpixel.invoice.domain.service.InvoiceService;
-import com.hitpixel.invoice.domain.service.createInvoiceCommand;
+import com.hitpixel.invoice.domain.command.createInvoiceCommand;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

@@ -1,13 +1,11 @@
-package com.hitpixel.invoice.domain.service;
+package com.hitpixel.invoice.domain.command;
 
 import com.hitpixel.invoice.Infrastructure.mq.CustomMessage;
-import com.hitpixel.invoice.Infrastructure.repository.InvoiceRepository;
-import com.hitpixel.invoice.domain.VO.Transaction;
 import com.hitpixel.invoice.domain.entity.Invoice;
+import com.hitpixel.invoice.domain.service.InvoiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.util.Objects;
 
 public class createInvoiceCommand implements ICommand {
 
@@ -31,12 +29,16 @@ public class createInvoiceCommand implements ICommand {
     @Override
     public void execute() {
         CustomMessage message = this.message;
+        long clientID = ((Number) message.getObject().get("clientID")).longValue();
+        Invoice invoice = this.invoiceService.getInvoiceWithClientID(clientID);
+        if (invoice == null || !Objects.equals(invoice.getStatus(), "Pending")){
+            invoice = new Invoice();
+            invoice.setClientID(clientID);
+            this.invoiceService.createInvoice(invoice);
+        } else{
+            this.invoiceService.updateInvoice(invoice);
+        }
 
-        Invoice invoice = new Invoice();
-        invoice.setUserId(message.getObject().get("clientID").toString());
-        invoice.setAmount(1L);
-        invoice.setCreatedAt(LocalDateTime.now());
-//        invoice.setTransactions(new Transaction());
-        this.invoiceService.createInvoice(invoice);
     }
+
 }

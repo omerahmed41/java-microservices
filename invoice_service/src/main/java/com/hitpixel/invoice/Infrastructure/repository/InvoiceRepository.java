@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface InvoiceRepository extends JpaRepository<Invoice,Long> {
-    Invoice findByUserId(Long userId);
+    Invoice findByClientID(Long clientID);
 }
