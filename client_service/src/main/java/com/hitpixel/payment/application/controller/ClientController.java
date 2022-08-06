@@ -1,7 +1,6 @@
 package com.hitpixel.payment.application.controller;
 
 
-import com.hitpixel.payment.domain.VO.ResponseTemplateVO;
 import com.hitpixel.payment.domain.entity.Client;
 import com.hitpixel.payment.domain.service.ClientService;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +32,7 @@ public class ClientController {
     }
 
     @GetMapping("/{id}")
-    public ResponseTemplateVO getClient(@PathVariable("id") Long clientId) {
+    public Client getClient(@PathVariable("id") Long clientId) {
         log.info("Inside getUserWithDepartment of UserController");
         return clientService.getClient(clientId);
     }
@@ -53,16 +52,11 @@ public class ClientController {
     }
 
     @GetMapping("client-transactions/{id}")
-    public ResponseTemplateVO clientTransactions(@PathVariable("id") Long clientId) {
+    public Client clientTransactions(@PathVariable("id") Long clientId) {
         log.info("Inside getUserWithDepartment of UserController");
         return clientService.getClient(clientId);
     }
 
-    @PostMapping("refund-transaction/{id}")
-    public ResponseTemplateVO refundTransactions(@PathVariable("id") Long clientId) {
-        log.info("Inside getUserWithDepartment of UserController");
-        return clientService.getClient(clientId);
-    }
 
 
 }

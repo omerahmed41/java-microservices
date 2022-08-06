@@ -40,4 +40,20 @@ public class MessagePublisher {
                 transaction.getTransactionID().toString(), map);
     }
 
+    public void publishTransactionRefundRequestedMessage(Transaction transaction) {
+        ObjectMapper oMapper = new ObjectMapper();
+        Map<String, Object> map = oMapper.convertValue(transaction, Map.class);
+        this.publishMessage("transaction_refund_requested",
+                transaction.getEmail(),
+                transaction.getTransactionID().toString(), map);
+    }
+
+    public void publishTransactionRefundDoneMessage(Transaction transaction) {
+        ObjectMapper oMapper = new ObjectMapper();
+        Map<String, Object> map = oMapper.convertValue(transaction, Map.class);
+        this.publishMessage("transaction_refund_done",
+                transaction.getEmail(),
+                transaction.getTransactionID().toString(), map);
+    }
+
 }

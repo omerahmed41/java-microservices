@@ -43,19 +43,19 @@ public class ClientService {
         return ResponseEntity.ok(clientRepository.findAll());
     }
 
-    public ResponseTemplateVO getClient(Long userId) {
-        log.info("Inside getUserWithDepartment of UserService");
-        ResponseTemplateVO vo = new ResponseTemplateVO();
-        Client client = clientRepository.findByUserId(userId);
+    public Client getClient(Long clientId) {
+        log.info("getClient:" + clientId);
+        return  clientRepository.findByUserId(clientId);
+    }
 
-//        Department department =
-//                restTemplate.getForObject("http://DEPARTMENT-SERVICE/departments/" + user.getDepartmentId()
-//                        ,Department.class);
+    public Client chargeClient(Long clientId, Long amount) {
+        log.info("chargeClient:" + clientId);
+        Client client = this.getClient(clientId);
+        client.setCredit(client.getCredit() - amount);
+        client =  clientRepository.save(client);
+        this.messagePublisher.publishClientChargedMessage(client);
+        return  client;
 
-        vo.setClient(client);
-//        vo.setDepartment(department);
-
-        return  vo;
     }
 
     public String deleteClient(long id) {

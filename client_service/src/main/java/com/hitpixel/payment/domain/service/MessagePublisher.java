@@ -29,7 +29,11 @@ public class MessagePublisher {
     }
 
     public void publishUserCreatedMessage(Client client) {
-        this.publishMessage("user_created", client.getEmail(), "");
+        this.publishMessage("user_created", client.getEmail(), ""+client.getUserId());
+    }
+
+    public void publishClientChargedMessage(Client client) {
+        this.publishMessage("client_charged", client.getEmail(), ""+client.getUserId());
     }
 
 }

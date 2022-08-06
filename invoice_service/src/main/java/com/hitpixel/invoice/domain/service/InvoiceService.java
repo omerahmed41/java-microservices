@@ -22,6 +22,12 @@ public class InvoiceService {
     @Autowired
     private RestTemplate restTemplate;
 
+    private final MessagePublisher messagePublisher;
+
+    @Autowired
+    public InvoiceService(MessagePublisher messagePublisher) {
+        this.messagePublisher = messagePublisher;
+    }
 
     public void createInvoice(Invoice invoice) {
         log.info("createInvoice clientID" + invoice.getClientID());
@@ -44,6 +50,15 @@ public class InvoiceService {
         log.info("Inside getUserWithDepartment of UserService");
         return invoiceRepository.findByClientID(clientID);
 
+    }
+
+    public Invoice payInvoiceWithClientID(Long clientID) {
+        log.info("Inside getUserWithDepartment of UserService");
+        Invoice invoice =  this.getInvoiceWithClientID(clientID);
+        invoice.setStatus("invoice_sent");
+        Invoice saved_invoice = invoiceRepository.save(invoice);
+        this.messagePublisher.publishInvoiceSentMessage(saved_invoice);
+        return  saved_invoice;
     }
 
     public String deleteInvoice(long id) {

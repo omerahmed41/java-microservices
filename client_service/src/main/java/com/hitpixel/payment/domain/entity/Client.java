@@ -20,7 +20,7 @@ public class Client {
     private String billing_interval;
     private String fees_type;
     private Long fees;
-
+    private Long credit = 100L;
 
 
 }

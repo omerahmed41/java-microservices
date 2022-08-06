@@ -17,7 +17,8 @@ public class NotificationService {
     public NotificationService() {
         // Add keys and values (Country, City)
         this.emailHashMap.put("user_created", new Email("", "Welcome Email", "Thank you for joining us"));
-        this.emailHashMap.put("bill_created", new Email("", "New invoice", "You have new invoice"));
+        this.emailHashMap.put("invoice_sent", new Email("", "New invoice", "You have new invoice"));
+        this.emailHashMap.put("client_charged", new Email("", "Account charged", "You have been charged"));
     }
 
     public void HandleMessage(CustomMessage message) {

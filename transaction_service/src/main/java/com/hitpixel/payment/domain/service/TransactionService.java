@@ -3,7 +3,6 @@ package com.hitpixel.payment.domain.service;
 
 
 import com.hitpixel.payment.Infrastructure.repository.TransactionRepository;
-import com.hitpixel.payment.domain.VO.ResponseTemplateVO;
 import com.hitpixel.payment.domain.entity.Transaction;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @Slf4j
@@ -43,20 +43,10 @@ public class TransactionService {
         return ResponseEntity.ok(transactionRepository.findAll());
     }
 
-    public ResponseTemplateVO getTransaction(Long transactionID) {
+    public Transaction getTransaction(Long transactionID) {
         log.info("Inside getUserWithDepartment of UserService");
-        ResponseTemplateVO vo = new ResponseTemplateVO();
-        Transaction transaction = transactionRepository.findById(transactionID).orElseThrow();
+        return transactionRepository.findById(transactionID).orElseThrow();
 
-//        Department department =
-//                restTemplate.getForObject("http://DEPARTMENT-SERVICE/departments/" + user.getDepartmentId()
-//                        ,Department.class);
-
-
-        vo.setTransaction(transaction);
-//        vo.setDepartment(department);
-
-        return  vo;
     }
 
     public String deleteTransaction(long id) {
@@ -69,5 +59,25 @@ public class TransactionService {
         existingTransaction.setEmail(transaction.getEmail());
 //        existingTransaction.setFees(transaction.getFees());
         return transactionRepository.save(existingTransaction);
+    }
+
+    public Transaction refundRequest(Long transactionID) {
+        Transaction transaction = this.getTransaction(transactionID);
+        if (Objects.equals(transaction.getStatus(), "approved")){
+            this.messagePublisher.publishTransactionRefundRequestedMessage(transaction);
+        }
+
+        return  transaction;
+    }
+
+    public Transaction refundDone(Long transactionID) {
+        Transaction transaction = this.getTransaction(transactionID);
+        if (Objects.equals(transaction.getStatus(), "approved")){
+            transaction.setStatus("refunded");
+            transactionRepository.save(transaction);
+            this.messagePublisher.publishTransactionRefundDoneMessage(transaction);
+        }
+
+        return  transaction;
     }
 }

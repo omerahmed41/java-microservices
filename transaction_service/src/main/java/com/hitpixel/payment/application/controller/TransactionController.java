@@ -1,7 +1,6 @@
 package com.hitpixel.payment.application.controller;
 
 
-import com.hitpixel.payment.domain.VO.ResponseTemplateVO;
 import com.hitpixel.payment.domain.entity.Transaction;
 import com.hitpixel.payment.domain.service.TransactionService;
 import lombok.extern.slf4j.Slf4j;
@@ -29,11 +28,12 @@ public class TransactionController {
     @PostMapping("/")
     public Transaction saveUser(@RequestBody Transaction transaction) {
         log.info("Inside saveUser of TransactionController");
+
         return transactionService.saveTransaction(transaction);
     }
 
     @GetMapping("/{id}")
-    public ResponseTemplateVO getUserWithDepartment(@PathVariable("id") Long transactionID) {
+    public Transaction getUserWithDepartment(@PathVariable("id") Long transactionID) {
         log.info("Inside getUserWithDepartment of transactionController");
         return transactionService.getTransaction(transactionID);
     }
@@ -52,6 +52,10 @@ public class TransactionController {
         return transactionService.deleteTransaction(id);
     }
 
-
+    @PostMapping("refund/{id}")
+    public Transaction refundTransactions(@PathVariable("id") Long transactionID) {
+        log.info("refundTransactionsr" + transactionID);
+        return transactionService.refundRequest(transactionID);
+    }
 
 }
