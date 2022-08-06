@@ -1,21 +1,20 @@
 # java-microservices
 Java Spring-boot Micro-services blueprint
 
-
+Features:
 * Spring-boot fresh build
-* docker
-* open API
-* make file
-* Logs slf4j
-* message broker
-* auth service
-* email service, main-service
-* Service registry
-* API-gateway
-* Design pattern
-* layer architecture (DDD)
-* CI/CD
-* kubernetes
+* docker with Docker compose.
+* open API and swagger.
+* makefile.
+* Logs slf4j.
+* message broker - rabbitmq.
+* auth service- keycloak ( todo).
+* Service registry.
+* API-gateway.
+* Design patterns (Pub-Sub, Command, Repository).
+* layer architecture (DDD).
+* SpringBoot CI/CD Pipeline.
+* kubernetes.
 
 
 
