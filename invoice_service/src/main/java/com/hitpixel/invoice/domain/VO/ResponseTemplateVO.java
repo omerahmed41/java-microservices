@@ -1,7 +1,7 @@
-package com.hitpixel.payment.domain.VO;
+package com.hitpixel.invoice.domain.VO;
 
 
-import com.hitpixel.payment.domain.entity.Client;
+import com.hitpixel.invoice.domain.entity.Invoice;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ResponseTemplateVO {
 
-    private Client client;
+    private Invoice invoice;
 //    private Department department;
 }

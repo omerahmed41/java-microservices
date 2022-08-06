@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.util.Date;
+import java.util.Map;
+import java.util.Objects;
 
 @Data
 @NoArgsConstructor
@@ -18,5 +20,6 @@ public class CustomMessage {
     private String id;
     private String email;
     private Date messageDate;
+    private Map<String, Object> object;
 
 }
