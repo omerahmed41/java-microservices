@@ -1,4 +1,4 @@
-# java-microservices
+# Java Spring-boot- Microservices
 Java Spring-boot Micro-services blueprint
 
 Features:
@@ -36,11 +36,18 @@ Features:
 * URL: http://localhost:8761
 <img width="1440" alt="Services" src="https://user-images.githubusercontent.com/15717941/183268815-6599e30c-66ed-4fdd-ae61-09d864ba6a4e.png">
 
-## APIs Docs:
-#### we used OpenAPI wiith swagger
-for localhost use
-* Client Servic http://localhost:8083
-* transaction Servic http://localhost
-* invoice Servic http://localhost:8082
-#### When use frontend like React.js or any client we can tahe davantge of the API gateway.
+## Docs:
+#### I used OpenAPI with swagger for API docs, also  followed Domain driven design with services Layer architecture to make it easy to understand the code
+#### Lastly the Naming of Classes, methods and objects is meaningful.
+to check the API docs on localhost:
+* Client Service http://localhost:8083
+* transaction Service http://localhost
+* invoice Service http://localhost:8082
+#### When use frontend like React.js or any client we can the advantage of the API gateway.
 
+## Todo:
+#### the goal was to build the skeleton and base Architecture of the system, but these are Things need to be done when have more time: 
+* Build Frontend with React.js.
+* Add more App Validations.
+* Focus more on documentation.
+* Review and add more unit, integrations, contracts and App tests.
