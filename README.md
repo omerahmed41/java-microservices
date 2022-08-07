@@ -16,6 +16,8 @@ Features:
 * SpringBoot CI/CD Pipeline.
 * kubernetes.
 
+## System Architecture:
+![billie](https://user-images.githubusercontent.com/15717941/183286123-59ed4669-08ef-4565-8ead-d3d44defb9cc.jpg)
 
 
 ## Setup: 
@@ -49,6 +51,10 @@ to check the API docs on localhost:
 
 ## Communications: 
 #### For Async communications I used rabbitmq, and for sync I used normal http calls later on grpc will be good use, also we can use REDIS as improvement.
+
+## Calculate Invoices:
+#### To achieve low latency everytime We are adding new client we crete empty invoice with Due_date based on client billing_interval, then every time we add a new transaction to the system we proccess it and add it to the invoice, then we run a cron job  every day to process all Due date invoices. after invoice is processed we mark it as done and create new one with new due date.
+
 
 ## CI/CD:
 #### Two steps: Build with tests, then Deploy.
