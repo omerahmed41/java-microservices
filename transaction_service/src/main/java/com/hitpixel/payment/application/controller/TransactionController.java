@@ -33,27 +33,27 @@ public class TransactionController {
     }
 
     /**
-     * Save user transaction.
+     * Save transaction.
      *
      * @param transaction the transaction
      * @return the transaction
      */
     @PostMapping("/")
-    public Transaction saveUser(@RequestBody Transaction transaction) {
-        log.info("Inside saveUser of TransactionController");
+    public Transaction saveTransaction(@RequestBody Transaction transaction) {
+        log.info("saveTransaction" + transaction );
 
         return transactionService.saveTransaction(transaction);
     }
 
     /**
-     * Gets user with department.
+     * Gets transaction.
      *
      * @param transactionID the transaction id
      * @return the user with department
      */
     @GetMapping("/{id}")
-    public Transaction getUserWithDepartment(@PathVariable("id") Long transactionID) {
-        log.info("Inside getUserWithDepartment of transactionController");
+    public Transaction getTransaction(@PathVariable("id") Long transactionID) {
+        log.info("getTransaction");
         return transactionService.getTransaction(transactionID);
     }
 
@@ -98,7 +98,7 @@ public class TransactionController {
      */
     @PostMapping("refund/{id}")
     public Transaction refundTransactions(@PathVariable("id") Long transactionID) {
-        log.info("refundTransactionsr" + transactionID);
+        log.info("refundTransactions" + transactionID);
         return transactionService.refundRequest(transactionID);
     }
 

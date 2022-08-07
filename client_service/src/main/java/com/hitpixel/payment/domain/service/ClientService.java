@@ -45,7 +45,7 @@ public class ClientService {
      * @param client the client
      * @return the client
      */
-    public Client saveUser(Client client) {
+    public Client saveClient(Client client) {
         log.info("Inside saveUser of UserService");
         client = clientRepository.save(client);
         this.messagePublisher.publishUserCreatedMessage(client);
@@ -68,6 +68,12 @@ public class ClientService {
      * @return the client
      */
     public Client getClient(Long clientId) {
+        log.info("getClient:" + clientId);
+        return clientRepository.findByUserId(clientId);
+    }
+
+    public Client getClientTransactions(Long clientId) {
+//        TODO
         log.info("getClient:" + clientId);
         return clientRepository.findByUserId(clientId);
     }

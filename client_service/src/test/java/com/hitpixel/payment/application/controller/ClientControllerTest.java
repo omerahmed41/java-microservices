@@ -48,9 +48,9 @@ class ClientControllerTest {
         client.setFees(100L);
         client.setFees_type("fixed");
 
-        when(clientService.saveUser(client)).thenReturn(client);
+        when(clientService.saveClient(client)).thenReturn(client);
 
-        Client savedClient = clientController.saveUser(client);
+        Client savedClient = clientController.saveClient(client);
 
         assertEquals(client, savedClient);
     }
@@ -63,12 +63,12 @@ class ClientControllerTest {
     void saveUserWhenEmailIsAlreadyTakenThenThrowsException() {
         Client client = new Client();
         client.setEmail("test@test.com");
-        when(clientService.saveUser(client)).thenThrow(new RuntimeException("Email already taken"));
-        assertThrows(RuntimeException.class, () -> clientController.saveUser(client));
+        when(clientService.saveClient(client)).thenThrow(new RuntimeException("Email already taken"));
+        assertThrows(RuntimeException.class, () -> clientController.saveClient(client));
     }
 
     /**
-     * Method under test: {@link ClientController#saveUser(Client)}
+     * Method under test: {@link ClientController#saveClient(Client)}
      *
      * @throws Exception the exception
      */
@@ -82,7 +82,7 @@ class ClientControllerTest {
         client.setFees(1L);
         client.setFees_type("Fees type");
         client.setUserId(123L);
-        when(clientService.saveUser((Client) any())).thenReturn(client);
+        when(clientService.saveClient((Client) any())).thenReturn(client);
 
         Client client1 = new Client();
         client1.setBilling_interval("Billing interval");

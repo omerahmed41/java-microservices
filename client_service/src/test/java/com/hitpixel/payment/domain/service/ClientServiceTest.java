@@ -183,7 +183,7 @@ class ClientServiceTest {
 
         when(clientRepository.save(client)).thenReturn(client);
 
-        Client savedClient = clientService.saveUser(client);
+        Client savedClient = clientService.saveClient(client);
 
         assertEquals(savedClient, client);
     }

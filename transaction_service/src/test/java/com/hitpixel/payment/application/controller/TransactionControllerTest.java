@@ -105,7 +105,7 @@ class TransactionControllerTest {
     }
 
     /**
-     * Method under test: {@link TransactionController#getUserWithDepartment(Long)}
+     * Method under test: {@link TransactionController#getTransaction(Long)}
      */
     @Test
     void testGetUserWithDepartment() throws Exception {
@@ -161,7 +161,7 @@ class TransactionControllerTest {
     }
 
     /**
-     * Method under test: {@link TransactionController#saveUser(Transaction)}
+     * Method under test: {@link TransactionController#saveTransaction(Transaction)}
      */
     @Test
     void testSaveUser() throws Exception {

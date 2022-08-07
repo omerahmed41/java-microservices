@@ -39,9 +39,9 @@ public class ClientController {
      * @return the client
      */
     @PostMapping("/")
-    public Client saveUser(@RequestBody Client client) {
+    public Client saveClient(@RequestBody Client client) {
         log.info("Inside saveUser of UserController");
-        return clientService.saveUser(client);
+        return clientService.saveClient(client);
     }
 
     /**
@@ -98,7 +98,7 @@ public class ClientController {
     @GetMapping("client-transactions/{id}")
     public Client clientTransactions(@PathVariable("id") Long clientId) {
         log.info("Inside getUserWithDepartment of UserController");
-        return clientService.getClient(clientId);
+        return clientService.getClientTransactions(clientId);
     }
 
 

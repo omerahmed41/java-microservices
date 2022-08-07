@@ -94,7 +94,7 @@ public class TransactionService {
     public Transaction updateTransaction(long id,Transaction transaction) {
         Transaction existingTransaction = transactionRepository.findById(id).orElseThrow();
         existingTransaction.setEmail(transaction.getEmail());
-//        existingTransaction.setFees(transaction.getFees());
+        existingTransaction.setStatus(transaction.getStatus());
         return transactionRepository.save(existingTransaction);
     }
 
