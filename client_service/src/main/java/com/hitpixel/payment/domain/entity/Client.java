@@ -16,6 +16,7 @@ public class Client {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long userId;
     private String client;
+    @Column(unique=true)
     private String email;
     private String billing_interval;
     private String fees_type;

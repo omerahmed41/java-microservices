@@ -37,18 +37,7 @@ class NotificationServiceTest {
     @Disabled("TODO: Complete this test")
     void testHandleMessage2() {
         // TODO: Complete this test.
-        //   Reason: R013 No inputs found that don't throw a trivial exception.
-        //   Diffblue Cover tried to run the arrange/act section, but the method under
-        //   test threw
-        //   java.lang.NullPointerException: Cannot invoke "com.hitpixel.notification.Infrastructure.mq.CustomMessage.getMessage()" because "message" is null
-        //       at com.hitpixel.notification.domain.service.NotificationService.HandleMessage(NotificationService.java:25)
-        //   In order to prevent HandleMessage(CustomMessage)
-        //   from throwing NullPointerException, add constructors or factory
-        //   methods that make it easier to construct fully initialized objects used in
-        //   HandleMessage(CustomMessage).
-        //   See https://diff.blue/R013 to resolve this issue.
 
-        notificationService.HandleMessage(null);
     }
 
     /**
@@ -83,18 +72,7 @@ class NotificationServiceTest {
     @Disabled("TODO: Complete this test")
     void testSendEmail2() {
         // TODO: Complete this test.
-        //   Reason: R013 No inputs found that don't throw a trivial exception.
-        //   Diffblue Cover tried to run the arrange/act section, but the method under
-        //   test threw
-        //   java.lang.NullPointerException: Cannot invoke "com.hitpixel.notification.domain.VO.Email.getToEmail()" because "email" is null
-        //       at com.hitpixel.notification.domain.service.NotificationService.sendEmail(NotificationService.java:34)
-        //   In order to prevent sendEmail(Email)
-        //   from throwing NullPointerException, add constructors or factory
-        //   methods that make it easier to construct fully initialized objects used in
-        //   sendEmail(Email).
-        //   See https://diff.blue/R013 to resolve this issue.
 
-        notificationService.sendEmail(null);
     }
 
     /**

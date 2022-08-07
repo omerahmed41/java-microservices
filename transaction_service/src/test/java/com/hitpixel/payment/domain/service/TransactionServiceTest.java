@@ -118,17 +118,6 @@ class TransactionServiceTest {
     @Disabled("TODO: Complete this test")
     void testGetTransaction2() {
         // TODO: Complete this test.
-        //   Reason: R013 No inputs found that don't throw a trivial exception.
-        //   Diffblue Cover tried to run the arrange/act section, but the method under
-        //   test threw
-        //   java.util.NoSuchElementException: No value present
-        //       at java.util.Optional.orElseThrow(Optional.java:377)
-        //       at com.hitpixel.payment.domain.service.TransactionService.getTransaction(TransactionService.java:48)
-        //   In order to prevent getTransaction(Long)
-        //   from throwing NoSuchElementException, add constructors or factory
-        //   methods that make it easier to construct fully initialized objects used in
-        //   getTransaction(Long).
-        //   See https://diff.blue/R013 to resolve this issue.
 
         when(transactionRepository.findById((Long) any())).thenReturn(Optional.empty());
         transactionService.getTransaction(1L);
@@ -196,42 +185,8 @@ class TransactionServiceTest {
     @Disabled("TODO: Complete this test")
     void testUpdateTransaction2() {
         // TODO: Complete this test.
-        //   Reason: R013 No inputs found that don't throw a trivial exception.
-        //   Diffblue Cover tried to run the arrange/act section, but the method under
-        //   test threw
-        //   java.util.NoSuchElementException: No value present
-        //       at java.util.Optional.orElseThrow(Optional.java:377)
-        //       at com.hitpixel.payment.domain.service.TransactionService.updateTransaction(TransactionService.java:58)
-        //   In order to prevent updateTransaction(long, Transaction)
-        //   from throwing NoSuchElementException, add constructors or factory
-        //   methods that make it easier to construct fully initialized objects used in
-        //   updateTransaction(long, Transaction).
-        //   See https://diff.blue/R013 to resolve this issue.
 
-        Transaction transaction = new Transaction();
-        transaction.setAmount(10L);
-        transaction.setCard_type("Card type");
-        transaction.setClientID(1L);
-        transaction.setCreatedAt(LocalDateTime.of(1, 1, 1, 1, 1));
-        transaction.setCurrency("GBP");
-        transaction.setEmail("jane.doe@example.org");
-        transaction.setOrderID(1L);
-        transaction.setStatus("Status");
-        transaction.setTransactionID(1L);
-        when(transactionRepository.save((Transaction) any())).thenReturn(transaction);
-        when(transactionRepository.findById((Long) any())).thenReturn(Optional.empty());
 
-        Transaction transaction1 = new Transaction();
-        transaction1.setAmount(10L);
-        transaction1.setCard_type("Card type");
-        transaction1.setClientID(1L);
-        transaction1.setCreatedAt(LocalDateTime.of(1, 1, 1, 1, 1));
-        transaction1.setCurrency("GBP");
-        transaction1.setEmail("jane.doe@example.org");
-        transaction1.setOrderID(1L);
-        transaction1.setStatus("Status");
-        transaction1.setTransactionID(1L);
-        transactionService.updateTransaction(123L, transaction1);
     }
 
     /**
@@ -284,19 +239,7 @@ class TransactionServiceTest {
     @Test
     @Disabled("TODO: Complete this test")
     void testRefundRequest3() {
-        // TODO: Complete this test.
-        //   Reason: R013 No inputs found that don't throw a trivial exception.
-        //   Diffblue Cover tried to run the arrange/act section, but the method under
-        //   test threw
-        //   java.util.NoSuchElementException: No value present
-        //       at java.util.Optional.orElseThrow(Optional.java:377)
-        //       at com.hitpixel.payment.domain.service.TransactionService.getTransaction(TransactionService.java:48)
-        //       at com.hitpixel.payment.domain.service.TransactionService.refundRequest(TransactionService.java:65)
-        //   In order to prevent refundRequest(Long)
-        //   from throwing NoSuchElementException, add constructors or factory
-        //   methods that make it easier to construct fully initialized objects used in
-        //   refundRequest(Long).
-        //   See https://diff.blue/R013 to resolve this issue.
+
 
         when(transactionRepository.findById((Long) any())).thenReturn(Optional.empty());
         doNothing().when(messagePublisher).publishTransactionRefundRequestedMessage((Transaction) any());
@@ -368,19 +311,6 @@ class TransactionServiceTest {
     @Test
     @Disabled("TODO: Complete this test")
     void testRefundDone3() {
-        // TODO: Complete this test.
-        //   Reason: R013 No inputs found that don't throw a trivial exception.
-        //   Diffblue Cover tried to run the arrange/act section, but the method under
-        //   test threw
-        //   java.util.NoSuchElementException: No value present
-        //       at java.util.Optional.orElseThrow(Optional.java:377)
-        //       at com.hitpixel.payment.domain.service.TransactionService.getTransaction(TransactionService.java:48)
-        //       at com.hitpixel.payment.domain.service.TransactionService.refundDone(TransactionService.java:74)
-        //   In order to prevent refundDone(Long)
-        //   from throwing NoSuchElementException, add constructors or factory
-        //   methods that make it easier to construct fully initialized objects used in
-        //   refundDone(Long).
-        //   See https://diff.blue/R013 to resolve this issue.
 
         Transaction transaction = new Transaction();
         transaction.setAmount(10L);

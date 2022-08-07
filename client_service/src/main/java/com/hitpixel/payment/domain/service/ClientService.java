@@ -2,7 +2,6 @@ package com.hitpixel.payment.domain.service;
 
 
 import com.hitpixel.payment.Infrastructure.repository.ClientRepository;
-import com.hitpixel.payment.domain.VO.ResponseTemplateVO;
 import com.hitpixel.payment.domain.entity.Client;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +15,7 @@ import java.util.List;
 @Slf4j
 public class ClientService {
 
-    @Autowired
-    private ClientRepository clientRepository;
+    private final ClientRepository clientRepository;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -25,18 +23,18 @@ public class ClientService {
     private final MessagePublisher messagePublisher;
 
 
-
     @Autowired
-    public ClientService(MessagePublisher messagePublisher) {
+    public ClientService(MessagePublisher messagePublisher, ClientRepository clientRepository) {
         this.messagePublisher = messagePublisher;
+        this.clientRepository = clientRepository;
     }
 
 
     public Client saveUser(Client client) {
         log.info("Inside saveUser of UserService");
-        client =  clientRepository.save(client);
+        client = clientRepository.save(client);
         this.messagePublisher.publishUserCreatedMessage(client);
-        return  client;
+        return client;
     }
 
     public ResponseEntity<List<Client>> getAllClient() {
@@ -45,16 +43,16 @@ public class ClientService {
 
     public Client getClient(Long clientId) {
         log.info("getClient:" + clientId);
-        return  clientRepository.findByUserId(clientId);
+        return clientRepository.findByUserId(clientId);
     }
 
     public Client chargeClient(Long clientId, Long amount) {
         log.info("chargeClient:" + clientId);
         Client client = this.getClient(clientId);
         client.setCredit(client.getCredit() - amount);
-        client =  clientRepository.save(client);
+        client = clientRepository.save(client);
         this.messagePublisher.publishClientChargedMessage(client);
-        return  client;
+        return client;
 
     }
 
@@ -63,7 +61,7 @@ public class ClientService {
         return "Client removed !! " + id;
     }
 
-    public Client updateClient(long id,Client client) {
+    public Client updateClient(long id, Client client) {
         Client existingClient = clientRepository.findById(id).orElseThrow();
         existingClient.setEmail(client.getEmail());
         existingClient.setFees(client.getFees());

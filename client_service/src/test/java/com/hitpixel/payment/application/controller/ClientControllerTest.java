@@ -1,12 +1,9 @@
 package com.hitpixel.payment.application.controller;
 
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.anyLong;
-import static org.mockito.Mockito.when;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hitpixel.payment.domain.entity.Client;
 import com.hitpixel.payment.domain.service.ClientService;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +19,10 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.*;
+
 @ContextConfiguration(classes = {ClientController.class})
 @ExtendWith(SpringExtension.class)
 class ClientControllerTest {
@@ -30,6 +31,32 @@ class ClientControllerTest {
 
     @MockBean
     private ClientService clientService;
+
+    @Test
+    @DisplayName("Should saves the client when the email is not taken")
+    void saveUserWhenEmailIsNotTaken() {
+        Client client = new Client();
+        client.setEmail("test@test.com");
+        client.setClient("test");
+        client.setBilling_interval("monthly");
+        client.setFees(100L);
+        client.setFees_type("fixed");
+
+        when(clientService.saveUser(client)).thenReturn(client);
+
+        Client savedClient = clientController.saveUser(client);
+
+        assertEquals(client, savedClient);
+    }
+
+    @Test
+    @DisplayName("Should throws an exception when the email is already taken")
+    void saveUserWhenEmailIsAlreadyTakenThenThrowsException() {
+        Client client = new Client();
+        client.setEmail("test@test.com");
+        when(clientService.saveUser(client)).thenThrow(new RuntimeException("Email already taken"));
+        assertThrows(RuntimeException.class, () -> clientController.saveUser(client));
+    }
 
     /**
      * Method under test: {@link ClientController#saveUser(Client)}

@@ -19,7 +19,6 @@ public class ClientController {
     private final ClientService clientService;
 
 
-
     @Autowired
     public ClientController(ClientService clientService) {
         this.clientService = clientService;
@@ -41,6 +40,7 @@ public class ClientController {
     public ResponseEntity<List<Client>> getAllClients() {
         return clientService.getAllClient();
     }
+
     @PutMapping("/{id}")
     public Client updateClient(@PathVariable int id, @RequestBody Client client) {
         return clientService.updateClient(id, client);
@@ -56,7 +56,6 @@ public class ClientController {
         log.info("Inside getUserWithDepartment of UserController");
         return clientService.getClient(clientId);
     }
-
 
 
 }

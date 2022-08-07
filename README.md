@@ -45,9 +45,21 @@ to check the API docs on localhost:
 * invoice Service http://localhost:8082
 #### When use frontend like React.js or any client we can the advantage of the API gateway.
 
+
+
+## Communications: 
+#### For Async communications I used rabbitmq, and for sync I used normal http calls later on grpc will be good use, also we can use REDIS as improvement.
+
+## CI/CD:
+#### Two steps: Build with tests, then Deploy.
+#### I commented the part of pushing the images to DockerHub then uploading it to the cloud but you can easily uncomment that to make it work.
+
 ## Todo:
 #### the goal was to build the skeleton and base Architecture of the system, but these are Things need to be done when have more time: 
+* Review and add more unit, integrations, contracts and App tests.
 * Build Frontend with React.js.
 * Add more App Validations.
 * Focus more on documentation.
-* Review and add more unit, integrations, contracts and App tests.
+* Auth Service with Keycloak.
+* REDIS.
+* GRPC (support HTTP2/websocket).
