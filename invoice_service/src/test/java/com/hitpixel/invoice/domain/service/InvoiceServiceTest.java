@@ -1,29 +1,21 @@
 package com.hitpixel.invoice.domain.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 import com.hitpixel.invoice.Infrastructure.repository.InvoiceRepository;
 import com.hitpixel.invoice.domain.entity.Invoice;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.client.RestTemplate;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 @ContextConfiguration(classes = {InvoiceService.class})
 @ExtendWith(SpringExtension.class)
@@ -40,136 +32,157 @@ class InvoiceServiceTest {
     @MockBean
     private RestTemplate restTemplate;
 
-    /**
-     * Method under test: {@link InvoiceService#createInvoice(Invoice)}
-     */
     @Test
-    void testCreateInvoice() {
+    @DisplayName("Should delete the invoice when the id is valid")
+    void deleteInvoiceWhenIdIsValid() {
+        long id = 1L;
         Invoice invoice = new Invoice();
-        invoice.setAmount(10L);
+        invoice.setInvoiceId(id);
         invoice.setClientID(1L);
-        invoice.setCompletedAt(LocalDateTime.of(1, 1, 1, 1, 1));
-        invoice.setCreatedAt(LocalDateTime.of(1, 1, 1, 1, 1));
-        invoice.setDueDate(LocalDateTime.of(1, 1, 1, 1, 1));
-        invoice.setInvoiceId(123L);
-        invoice.setStatus("Status");
-        when(invoiceRepository.save((Invoice) any())).thenReturn(invoice);
+        invoice.setAmount(1L);
+        invoice.setCreatedAt(LocalDateTime.now());
+        invoice.setStatus("Pending");
 
-        Invoice invoice1 = new Invoice();
-        invoice1.setAmount(10L);
-        invoice1.setClientID(1L);
-        invoice1.setCompletedAt(LocalDateTime.of(1, 1, 1, 1, 1));
-        invoice1.setCreatedAt(LocalDateTime.of(1, 1, 1, 1, 1));
-        invoice1.setDueDate(LocalDateTime.of(1, 1, 1, 1, 1));
-        invoice1.setInvoiceId(123L);
-        invoice1.setStatus("Status");
-        invoiceService.createInvoice(invoice1);
-        verify(invoiceRepository).save((Invoice) any());
-        assertEquals(1L, invoice1.getAmount().longValue());
-        assertEquals("Pending", invoice1.getStatus());
+        when(invoiceRepository.findById(id)).thenReturn(java.util.Optional.ofNullable(invoice));
+
+        assertEquals("Invoice removed !! " + id, invoiceService.deleteInvoice(id));
     }
 
-    /**
-     * Method under test: {@link InvoiceService#updateInvoice(Invoice)}
-     */
     @Test
-    void testUpdateInvoice() {
+    @DisplayName("Should throws an exception when the id is invalid")
+    void deleteInvoiceWhenIdIsInvalidThenThrowsException() {
+        long id = 1L;
+        doThrow(new IllegalArgumentException("Invalid id")).when(invoiceRepository).deleteById(id);
+
+        Throwable exception =
+                assertThrows(
+                        IllegalArgumentException.class, () -> invoiceService.deleteInvoice(id));
+
+        assertEquals("Invalid id", exception.getMessage());
+    }
+
+    @Test
+    @DisplayName("Should update the status of the invoice to invoice_sent when the invoice exists")
+    void payInvoiceWhenInvoiceExists() {
         Invoice invoice = new Invoice();
-        invoice.setAmount(10L);
+        invoice.setInvoiceId(1L);
         invoice.setClientID(1L);
-        invoice.setCompletedAt(LocalDateTime.of(1, 1, 1, 1, 1));
-        invoice.setCreatedAt(LocalDateTime.of(1, 1, 1, 1, 1));
-        invoice.setDueDate(LocalDateTime.of(1, 1, 1, 1, 1));
-        invoice.setInvoiceId(123L);
-        invoice.setStatus("Status");
-        when(invoiceRepository.save((Invoice) any())).thenReturn(invoice);
-
-
+        invoice.setAmount(1L);
+        invoice.setCreatedAt(LocalDateTime.now());
+        invoice.setStatus("Pending");
+        when(invoiceRepository.findByClientID(1L)).thenReturn(invoice);
+        when(invoiceRepository.save(invoice)).thenReturn(invoice);
+        Invoice saved_invoice = invoiceService.payInvoiceWithClientID(1L);
+        assertEquals("invoice_sent", saved_invoice.getStatus());
     }
 
-    /**
-     * Method under test: {@link InvoiceService#getAllInvoices()}
-     */
     @Test
-    void testGetAllInvoices() {
-        when(invoiceRepository.findAll()).thenReturn(new ArrayList<>());
-        ResponseEntity<List<Invoice>> actualAllInvoices = invoiceService.getAllInvoices();
-        assertTrue(actualAllInvoices.hasBody());
-        assertEquals(HttpStatus.OK, actualAllInvoices.getStatusCode());
-        assertTrue(actualAllInvoices.getHeaders().isEmpty());
-        verify(invoiceRepository).findAll();
-    }
-
-    /**
-     * Method under test: {@link InvoiceService#getAllDueDateInvoices()}
-     */
-    @Test
-    void testGetAllDueDateInvoices() {
-        ArrayList<Invoice> invoiceList = new ArrayList<>();
-        when(invoiceRepository.findByDueDateLessThanEqual((LocalDateTime) any())).thenReturn(invoiceList);
-        List<Invoice> actualAllDueDateInvoices = invoiceService.getAllDueDateInvoices();
-        assertSame(invoiceList, actualAllDueDateInvoices);
-        assertTrue(actualAllDueDateInvoices.isEmpty());
-        verify(invoiceRepository).findByDueDateLessThanEqual((LocalDateTime) any());
-    }
-
-    /**
-     * Method under test: {@link InvoiceService#getInvoiceWithClientID(Long)}
-     */
-    @Test
-    void testGetInvoiceWithClientID() {
+    @DisplayName("Should throw an exception when the invoice does not exist")
+    void payInvoiceWhenInvoiceDoesNotExistThenThrowException() {
         Invoice invoice = new Invoice();
-        invoice.setAmount(10L);
         invoice.setClientID(1L);
-        invoice.setCompletedAt(LocalDateTime.of(1, 1, 1, 1, 1));
-        invoice.setCreatedAt(LocalDateTime.of(1, 1, 1, 1, 1));
-        invoice.setDueDate(LocalDateTime.of(1, 1, 1, 1, 1));
-        invoice.setInvoiceId(123L);
-        invoice.setStatus("Status");
-        when(invoiceRepository.findByClientID((Long) any())).thenReturn(invoice);
-        assertSame(invoice, invoiceService.getInvoiceWithClientID(1L));
-        verify(invoiceRepository).findByClientID((Long) any());
+        invoice.setAmount(1L);
+        invoice.setCreatedAt(LocalDateTime.now());
+        invoice.setStatus("Pending");
+        when(invoiceRepository.findByClientID(1L)).thenReturn(null);
+        assertThrows(
+                NullPointerException.class,
+                () -> {
+                    invoiceService.payInvoiceWithClientID(1L);
+                });
     }
 
-    /**
-     * Method under test: {@link InvoiceService#payInvoiceWithClientID(Long)}
-     */
     @Test
-    void testPayInvoiceWithClientID() {
-
-
-        Invoice invoice1 = new Invoice();
-        invoice1.setAmount(10L);
-        invoice1.setClientID(1L);
-        invoice1.setCompletedAt(LocalDateTime.of(1, 1, 1, 1, 1));
-        invoice1.setCreatedAt(LocalDateTime.of(1, 1, 1, 1, 1));
-        invoice1.setDueDate(LocalDateTime.of(1, 1, 1, 1, 1));
-        invoice1.setInvoiceId(123L);
-        invoice1.setStatus("Status");
-        when(invoiceRepository.save((Invoice) any())).thenReturn(invoice1);
-        doNothing().when(messagePublisher).publishInvoiceSentMessage((Invoice) any());
-        assertSame(invoice1, invoiceService.payInvoiceWithClientID(1L));
-        verify(invoiceRepository).findByClientID((Long) any());
-        verify(invoiceRepository).save((Invoice) any());
-        verify(messagePublisher).publishInvoiceSentMessage((Invoice) any());
+    @DisplayName("Should return the invoice when the clientID is found")
+    void getInvoiceWithClientIDWhenClientIDIsFound() {
+        Invoice invoice =
+                new Invoice(
+                        1L,
+                        1L,
+                        1L,
+                        LocalDateTime.now(),
+                        LocalDateTime.now(),
+                        LocalDateTime.now(),
+                        "Pending");
+        when(invoiceRepository.findByClientID(1L)).thenReturn(invoice);
+        assertEquals(invoice, invoiceService.getInvoiceWithClientID(1L));
     }
 
-    /**
-     * Method under test: {@link InvoiceService#payInvoice(Invoice)}
-     */
     @Test
-    void testPayInvoice() {
+    @DisplayName("Should return null when the clientID is not found")
+    void getInvoiceWithClientIDWhenClientIDIsNotFound() {
+        when(invoiceRepository.findByClientID(1L)).thenReturn(null);
+        assertNull(invoiceService.getInvoiceWithClientID(1L));
+    }
+
+    @Test
+    @DisplayName("Should return all invoices with due date less than or equal to now")
+    void getAllDueDateInvoicesShouldReturnAllInvoicesWithDueDateLessThanOrEqualToNow() {
+        Invoice invoice =
+                new Invoice(
+                        1L,
+                        1L,
+                        1L,
+                        LocalDateTime.now(),
+                        LocalDateTime.now(),
+                        LocalDateTime.now(),
+                        "Pending");
+        when(invoiceRepository.findByDueDateLessThanEqual(LocalDateTime.now()))
+                .thenReturn(List.of(invoice));
+
+        List<Invoice> invoices = invoiceService.getAllDueDateInvoices();
+
+        assertEquals(0, invoices.size());
+
+    }
+
+    @Test
+    @DisplayName("Should return all invoices")
+    void getAllInvoicesShouldReturnAllInvoices() {
+        Invoice invoice =
+                new Invoice(
+                        1L,
+                        1L,
+                        1L,
+                        LocalDateTime.now(),
+                        LocalDateTime.now(),
+                        LocalDateTime.now(),
+                        "Pending");
+        when(invoiceRepository.findAll()).thenReturn(List.of(invoice));
+        assertEquals(1, invoiceService.getAllInvoices().getBody().size());
+    }
+
+    @Test
+    @DisplayName("Should update the invoice when the invoice exists")
+    void updateInvoiceWhenInvoiceExists() {
         Invoice invoice = new Invoice();
-        invoice.setAmount(10L);
         invoice.setClientID(1L);
-        invoice.setCompletedAt(LocalDateTime.of(1, 1, 1, 1, 1));
-        invoice.setCreatedAt(LocalDateTime.of(1, 1, 1, 1, 1));
-        invoice.setDueDate(LocalDateTime.of(1, 1, 1, 1, 1));
-        invoice.setInvoiceId(123L);
-        invoice.setStatus("Status");
-        when(invoiceRepository.save((Invoice) any())).thenReturn(invoice);
-        doNothing().when(messagePublisher).publishInvoiceSentMessage((Invoice) any());
+        invoice.setAmount(1L);
+        invoice.setCreatedAt(LocalDateTime.now());
+        invoice.setStatus("Pending");
 
+        when(invoiceRepository.findByClientID(1L)).thenReturn(invoice);
+
+        invoiceService.updateInvoice(invoice);
+
+        verify(invoiceRepository, times(1)).save(invoice);
+    }
+
+    @Test
+    @DisplayName("Should save invoice")
+    void createInvoiceShouldSaveInvoice() {
+        Invoice invoice =
+                new Invoice(
+                        1L,
+                        1L,
+                        1L,
+                        LocalDateTime.now(),
+                        LocalDateTime.now(),
+                        LocalDateTime.now(),
+                        "Pending");
+        when(invoiceRepository.save(invoice)).thenReturn(invoice);
+        invoiceService.createInvoice(invoice);
+        verify(invoiceRepository, times(1)).save(invoice);
     }
 
     /**
