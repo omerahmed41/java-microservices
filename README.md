@@ -11,7 +11,7 @@ Features:
 * auth service- keycloak ( todo).
 * Service registry.
 * API-gateway.
-* Design patterns (Pub-Sub, Command, Repository).
+* Design patterns (Pub-Sub, Command, Repository, Singleton).
 * layer architecture (DDD).
 * SpringBoot CI/CD Pipeline.
 * kubernetes.
@@ -53,8 +53,13 @@ to check the API docs on localhost:
 #### For Async communications I used rabbitmq, and for sync I used normal http calls later on grpc will be good use, also we can use REDIS as improvement.
 
 ## Calculate Invoices:
-#### To achieve low latency everytime We are adding new client we crete empty invoice with Due_date based on client billing_interval, then every time we add a new transaction to the system we proccess it and add it to the invoice, then we run a cron job  every day to process all Due date invoices. after invoice is processed we mark it as done and create new one with new due date.
+#### To achieve low latency: we crete empty invoice with Due_date based on client billing_interval everytime We are adding new client, then every time we add a new transaction to the system we proccess it and add it to the invoice, then we run a cron job  every day to process all Due date invoices. after invoice is processed we mark it as done and create new one with new due date.
 
+## Design Patterns:
+* Pub-Sub: I used bub-sub model along with events streaming broker rabbitmq.
+* Command: I used two commands class for chargeClientCommand and createInvoiceCommand.
+* Repository: Used repository pattern to decouple Domain layer from DB layer, for example we can mock the repository and use DB memory.
+* Singleton: Singleton pattern is used in Spring bean.
 
 ## CI/CD:
 #### Two steps: Build with tests, then Deploy.
@@ -68,4 +73,4 @@ to check the API docs on localhost:
 * Focus more on documentation.
 * Auth Service with Keycloak.
 * REDIS.
-* GRPC (support HTTP2/websocket).
+* GRPC (support HTTP2/Websocket).
