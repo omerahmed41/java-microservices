@@ -53,7 +53,7 @@ to check the API docs on localhost:
 #### For Async communications I used rabbitmq, and for sync I used normal http calls later on grpc will be good use, also we can use REDIS as improvement.
 
 ## Calculate Invoices:
-#### To achieve low latency: we crete empty invoice with Due_date based on client billing_interval everytime We are adding new client, then every time we add a new transaction to the system we proccess it and add it to the invoice, then we run a cron job  every day to process all Due date invoices. after invoice is processed we mark it as done and create new one with new due date.
+#### To achieve low latency: we crete empty invoice with Due_date based on client billing_interval everytime We are adding new client, then every time we add a new transaction to the system we process it and add it to the invoice, then we run a cron job  every day to process all Due date invoices. after invoice is processed we mark it as done and create new one with new due date.
 
 ## Design Patterns:
 * Pub-Sub: I used bub-sub model along with events streaming broker rabbitmq.
@@ -63,7 +63,7 @@ to check the API docs on localhost:
 
 ## CI/CD:
 #### Two steps: Build with tests, then Deploy.
-#### I commented the part of pushing the images to DockerHub then uploading it to the cloud but you can easily uncomment that to make it work.
+#### I commented the part of pushing the images to DockerHub then uploading it to the cloud but, you can easily uncomment that to make it work.
 
 ## Todo:
 #### the goal was to build the skeleton and base Architecture of the system, but these are Things need to be done when have more time: 
