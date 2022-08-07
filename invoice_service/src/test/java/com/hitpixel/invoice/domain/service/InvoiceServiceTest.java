@@ -72,7 +72,7 @@ class InvoiceServiceTest {
         invoice.setStatus("Pending");
         when(invoiceRepository.findByClientID(1L)).thenReturn(invoice);
         when(invoiceRepository.save(invoice)).thenReturn(invoice);
-        Invoice saved_invoice = invoiceService.payInvoiceWithClientID(1L);
+        Invoice saved_invoice = invoiceService.generateInvoiceBillWithClientID(1L);
         assertEquals("invoice_sent", saved_invoice.getStatus());
     }
 
@@ -88,7 +88,7 @@ class InvoiceServiceTest {
         assertThrows(
                 NullPointerException.class,
                 () -> {
-                    invoiceService.payInvoiceWithClientID(1L);
+                    invoiceService.generateInvoiceBillWithClientID(1L);
                 });
     }
 

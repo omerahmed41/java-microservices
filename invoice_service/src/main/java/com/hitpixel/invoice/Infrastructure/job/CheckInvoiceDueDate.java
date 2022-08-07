@@ -32,7 +32,7 @@ public class CheckInvoiceDueDate
     public void CheckInvoiceDueDateTask() {
         log.info("Run CheckInvoiceDueDateTask at" + LocalDateTime.now());
         List<Invoice> Invoices =  invoiceService.getAllDueDateInvoices();
-        Invoices.forEach(invoiceService::payInvoice);
+        Invoices.forEach(invoiceService::sentInvoiceBill);
     }
 
 }

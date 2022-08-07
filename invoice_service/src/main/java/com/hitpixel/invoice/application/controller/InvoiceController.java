@@ -1,17 +1,14 @@
 package com.hitpixel.invoice.application.controller;
 
 
-import com.hitpixel.invoice.domain.VO.ResponseTemplateVO;
 import com.hitpixel.invoice.domain.entity.Invoice;
 import com.hitpixel.invoice.domain.service.InvoiceService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.support.PeriodicTrigger;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 /**
  * The type Invoice controller.
@@ -54,10 +51,10 @@ public class InvoiceController {
      * @param clientID the client id
      * @return the invoice
      */
-    @GetMapping("/pay/client-id={id}")
-    public Invoice payInvoiceWithClientID(@PathVariable("id") Long clientID) {
+    @GetMapping("/bill/client-id={id}")
+    public Invoice generateInvoiceBillWithClientID(@PathVariable("id") Long clientID) {
         log.info("Inside getUserWithDepartment of UserController");
-        return invoiceService.payInvoiceWithClientID(clientID);
+        return invoiceService.generateInvoiceBillWithClientID(clientID);
     }
 
 

@@ -175,34 +175,6 @@ class ClientControllerTest {
                                         + ",\"fees_type\":\"Fees type\",\"fees\":1,\"credit\":1}"));
     }
 
-    /**
-     * Method under test: {@link ClientController#clientTransactions(Long)}
-     *
-     * @throws Exception the exception
-     */
-    @Test
-    void testClientTransactions() throws Exception {
-        Client client = new Client();
-        client.setBilling_interval("Billing interval");
-        client.setClient("Client");
-        client.setCredit(1L);
-        client.setEmail("jane.doe@example.org");
-        client.setFees(1L);
-        client.setFees_type("Fees type");
-        client.setUserId(123L);
-        when(clientService.getClient((Long) any())).thenReturn(client);
-        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/clients/client-transactions/{id}",
-                123L);
-        MockMvcBuilders.standaloneSetup(clientController)
-                .build()
-                .perform(requestBuilder)
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
-                .andExpect(MockMvcResultMatchers.content()
-                        .string(
-                                "{\"userId\":123,\"client\":\"Client\",\"email\":\"jane.doe@example.org\",\"billing_interval\":\"Billing interval\""
-                                        + ",\"fees_type\":\"Fees type\",\"fees\":1,\"credit\":1}"));
-    }
 
     /**
      * Method under test: {@link ClientController#deleteClient(int)}

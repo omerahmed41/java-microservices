@@ -97,19 +97,19 @@ public class InvoiceService {
      * @param clientID the client id
      * @return the invoice
      */
-    public Invoice payInvoiceWithClientID(Long clientID) {
-//        log.info("payInvoiceWithClientID");
+    public Invoice generateInvoiceBillWithClientID(Long clientID) {
+//        log.info("generateInvoiceBillWithClientID");
         Invoice invoice =  this.getInvoiceWithClientID(clientID);
-        return this.payInvoice(invoice);
+        return this.sentInvoiceBill(invoice);
     }
 
     /**
-     * Pay invoice invoice.
+     * Pay invoice.
      *
      * @param invoice the invoice
      * @return the invoice
      */
-    public Invoice payInvoice(Invoice invoice) {
+    public Invoice sentInvoiceBill(Invoice invoice) {
         log.info("payInvoice");
         invoice.setStatus("invoice_sent");
         Invoice saved_invoice = invoiceRepository.save(invoice);
