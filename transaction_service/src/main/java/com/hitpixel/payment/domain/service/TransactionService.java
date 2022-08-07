@@ -14,6 +14,9 @@ import org.springframework.web.client.RestTemplate;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * The type Transaction service.
+ */
 @Service
 @Slf4j
 public class TransactionService {
@@ -21,7 +24,11 @@ public class TransactionService {
     private final MessagePublisher messagePublisher;
 
 
-
+    /**
+     * Instantiates a new Transaction service.
+     *
+     * @param messagePublisher the message publisher
+     */
     @Autowired
     public TransactionService(MessagePublisher messagePublisher) {
         this.messagePublisher = messagePublisher;
@@ -32,6 +39,12 @@ public class TransactionService {
     @Autowired
     private RestTemplate restTemplate;
 
+    /**
+     * Save transaction transaction.
+     *
+     * @param transaction the transaction
+     * @return the transaction
+     */
     public Transaction saveTransaction(Transaction transaction) {
         log.info("Inside saveUser of UserService");
         Transaction saved_transaction =  transactionRepository.save(transaction);
@@ -39,21 +52,45 @@ public class TransactionService {
         return saved_transaction;
     }
 
+    /**
+     * Gets all transaction.
+     *
+     * @return the all transaction
+     */
     public ResponseEntity<List<Transaction>> getAllTransaction() {
         return ResponseEntity.ok(transactionRepository.findAll());
     }
 
+    /**
+     * Gets transaction.
+     *
+     * @param transactionID the transaction id
+     * @return the transaction
+     */
     public Transaction getTransaction(Long transactionID) {
         log.info("Inside getUserWithDepartment of UserService");
         return transactionRepository.findById(transactionID).orElseThrow();
 
     }
 
+    /**
+     * Delete transaction string.
+     *
+     * @param id the id
+     * @return the string
+     */
     public String deleteTransaction(long id) {
         transactionRepository.deleteById(id);
         return "Transaction removed !! " + id;
     }
 
+    /**
+     * Update transaction transaction.
+     *
+     * @param id          the id
+     * @param transaction the transaction
+     * @return the transaction
+     */
     public Transaction updateTransaction(long id,Transaction transaction) {
         Transaction existingTransaction = transactionRepository.findById(id).orElseThrow();
         existingTransaction.setEmail(transaction.getEmail());
@@ -61,6 +98,12 @@ public class TransactionService {
         return transactionRepository.save(existingTransaction);
     }
 
+    /**
+     * Refund request transaction.
+     *
+     * @param transactionID the transaction id
+     * @return the transaction
+     */
     public Transaction refundRequest(Long transactionID) {
         Transaction transaction = this.getTransaction(transactionID);
         if (Objects.equals(transaction.getStatus(), "approved")){
@@ -70,6 +113,12 @@ public class TransactionService {
         return  transaction;
     }
 
+    /**
+     * Refund done transaction.
+     *
+     * @param transactionID the transaction id
+     * @return the transaction
+     */
     public Transaction refundDone(Long transactionID) {
         Transaction transaction = this.getTransaction(transactionID);
         if (Objects.equals(transaction.getStatus(), "approved")){

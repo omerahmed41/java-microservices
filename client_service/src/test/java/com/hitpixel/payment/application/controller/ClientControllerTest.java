@@ -23,6 +23,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
+/**
+ * The type Client controller test.
+ */
 @ContextConfiguration(classes = {ClientController.class})
 @ExtendWith(SpringExtension.class)
 class ClientControllerTest {
@@ -32,6 +35,9 @@ class ClientControllerTest {
     @MockBean
     private ClientService clientService;
 
+    /**
+     * Save user when email is not taken.
+     */
     @Test
     @DisplayName("Should saves the client when the email is not taken")
     void saveUserWhenEmailIsNotTaken() {
@@ -49,6 +55,9 @@ class ClientControllerTest {
         assertEquals(client, savedClient);
     }
 
+    /**
+     * Save user when email is already taken then throws exception.
+     */
     @Test
     @DisplayName("Should throws an exception when the email is already taken")
     void saveUserWhenEmailIsAlreadyTakenThenThrowsException() {
@@ -60,6 +69,8 @@ class ClientControllerTest {
 
     /**
      * Method under test: {@link ClientController#saveUser(Client)}
+     *
+     * @throws Exception the exception
      */
     @Test
     void testSaveUser() throws Exception {
@@ -98,6 +109,8 @@ class ClientControllerTest {
 
     /**
      * Method under test: {@link ClientController#getClient(Long)}
+     *
+     * @throws Exception the exception
      */
     @Test
     void testGetClient() throws Exception {
@@ -124,6 +137,8 @@ class ClientControllerTest {
 
     /**
      * Method under test: {@link ClientController#updateClient(int, Client)}
+     *
+     * @throws Exception the exception
      */
     @Test
     void testUpdateClient() throws Exception {
@@ -162,6 +177,8 @@ class ClientControllerTest {
 
     /**
      * Method under test: {@link ClientController#clientTransactions(Long)}
+     *
+     * @throws Exception the exception
      */
     @Test
     void testClientTransactions() throws Exception {
@@ -189,6 +206,8 @@ class ClientControllerTest {
 
     /**
      * Method under test: {@link ClientController#deleteClient(int)}
+     *
+     * @throws Exception the exception
      */
     @Test
     void testDeleteClient() throws Exception {
@@ -204,6 +223,8 @@ class ClientControllerTest {
 
     /**
      * Method under test: {@link ClientController#deleteClient(int)}
+     *
+     * @throws Exception the exception
      */
     @Test
     void testDeleteClient2() throws Exception {
@@ -220,6 +241,8 @@ class ClientControllerTest {
 
     /**
      * Method under test: {@link ClientController#getAllClients()}
+     *
+     * @throws Exception the exception
      */
     @Test
     void testGetAllClients() throws Exception {

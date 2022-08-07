@@ -17,6 +17,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
+/**
+ * The type Client service test.
+ */
 @ContextConfiguration(classes = {ClientService.class})
 @ExtendWith(SpringExtension.class)
 class ClientServiceTest {
@@ -32,6 +35,9 @@ class ClientServiceTest {
     @MockBean
     private RestTemplate restTemplate;
 
+    /**
+     * Update client when client is found then return client.
+     */
     @Test
     @DisplayName("Should return client when client is found")
     void updateClientWhenClientIsFoundThenReturnClient() {
@@ -48,6 +54,9 @@ class ClientServiceTest {
         assertEquals(100L, updatedClient.getFees());
     }
 
+    /**
+     * Update client when client is not found then throw exception.
+     */
     @Test
     @DisplayName("Should throw exception when client is not found")
     void updateClientWhenClientIsNotFoundThenThrowException() {
@@ -65,6 +74,9 @@ class ClientServiceTest {
                 });
     }
 
+    /**
+     * Delete client when id is valid.
+     */
     @Test
     @DisplayName("Should delete the client when the id is valid")
     void deleteClientWhenIdIsValid() {
@@ -82,6 +94,9 @@ class ClientServiceTest {
         assertEquals("Client removed !! 1", result);
     }
 
+    /**
+     * Charge client when client is not found then throw exception.
+     */
     @Test
     @DisplayName("Should throw exception when client is not found")
     void chargeClientWhenClientIsNotFoundThenThrowException() {
@@ -94,6 +109,9 @@ class ClientServiceTest {
         verify(clientRepository, times(1)).findByUserId(clientId);
     }
 
+    /**
+     * Charge client when client is found then return result.
+     */
     @Test
     @DisplayName("Should return client when client is found")
     void chargeClientWhenClientIsFoundThenReturnResult() {
@@ -106,6 +124,9 @@ class ClientServiceTest {
         assertEquals(90L, result.getCredit());
     }
 
+    /**
+     * Gets client when client exists.
+     */
     @Test
     @DisplayName("Should return the client when the client exists")
     void getClientWhenClientExists() {
@@ -125,6 +146,9 @@ class ClientServiceTest {
         assertEquals(client, result);
     }
 
+    /**
+     * Gets all client should returns a list of clients.
+     */
     @Test
     @DisplayName("Should returns a list of clients")
     void getAllClientShouldReturnsAListOfClients() {
@@ -142,6 +166,9 @@ class ClientServiceTest {
         assertEquals(List.of(client), clientService.getAllClient().getBody());
     }
 
+    /**
+     * Save user when user does not exist.
+     */
     @Test
     @DisplayName("Should save the user when the user does not exist")
     void saveUserWhenUserDoesNotExist() {
