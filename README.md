@@ -74,3 +74,8 @@ to check the API docs on localhost:
 * Auth Service with Keycloak.
 * REDIS.
 * GRPC (support HTTP2/Websocket).
+
+* Note make sure you have Docker installed and give it enough memory from the setting, because we have 6 services running with 4 DBs.
+<img width="1440" alt="Screen Shot 2022-08-07 at 3 53 13 PM" src="https://user-images.githubusercontent.com/15717941/183289201-10746be4-af21-4c2e-8242-bf1921c6faef.png">
+
+
